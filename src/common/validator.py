@@ -3,6 +3,7 @@ from typing import List, Optional, Any
 from re import fullmatch, IGNORECASE, Match
 
 from src.common.constants import ALLOW_AGGREGATE_METHODS, ALLOW_FILTER_OPERATORS
+from src.common.regex import FILTER_PATTERN, AGGREGATION_PATTER
 
 
 class CliArgsValidator:
@@ -12,6 +13,7 @@ class CliArgsValidator:
 
         if path.suffix.lower() != ".csv":
             raise Exception("Утилита поддерживает файлы только с расширением .csv")
+
         if not path.exists():
             raise FileExistsError(f"Файл {path} не найден или невозможно открыть, проверьте название или путь")
 
@@ -23,9 +25,8 @@ class CliArgsValidator:
         :param choice: str -> cli arg, example: 'price>200'
         :return: List[str] -> [column, operator, condition], example: ['price', '>', '200']
         """
-        pattern: str = fr'^\s*([a-zA-Z_]\w*)\s*([{ALLOW_FILTER_OPERATORS}])(?![{ALLOW_FILTER_OPERATORS}])\s*(.+?)\s*$'
-
-        match: Optional[Match[str]] = fullmatch(pattern=pattern, string=choice)
+        regex_pattern: str = FILTER_PATTERN
+        match: Optional[Match[str]] = fullmatch(pattern=regex_pattern, string=choice)
 
         if not match:
             raise Exception(
@@ -50,8 +51,8 @@ class CliArgsValidator:
         :param choice: str -> cli arg, example: 'price=max'
         :return: List[str] -> [column, operation], example: ['price', 'max']
         """
-        pattern: str = fr'^\s*([a-zA-Z_]\w*)\s*=\s*({ALLOW_AGGREGATE_METHODS})\s*$'
-        match: Optional[Match[str]] = fullmatch(pattern=pattern, string=choice, flags=IGNORECASE)
+        regex_pattern: str = AGGREGATION_PATTER
+        match: Optional[Match[str]] = fullmatch(pattern=regex_pattern, string=choice, flags=IGNORECASE)
 
         if not match:
             raise Exception(

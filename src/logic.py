@@ -5,7 +5,7 @@ from src.common.dto import FileHandlerDTO, CliArgsDTO
 from src.processor import CSVFileHandler
 
 
-def main_logic(sys_args: List[str]) -> FileHandlerDTO:
+def run(sys_args: List[str]) -> FileHandlerDTO:
     result: FileHandlerDTO = FileHandlerDTO()
 
     try:

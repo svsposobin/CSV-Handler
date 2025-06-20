@@ -62,7 +62,7 @@ class CSVFileHandler:
 
                 if not self._filters:
                     yield from reader
-                    return
+                    return  # Нужен для выхода с функции
 
                 filter_column, filter_operator, filter_value = self._filters
 

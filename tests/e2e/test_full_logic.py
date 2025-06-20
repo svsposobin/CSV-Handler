@@ -3,7 +3,7 @@ import pytest
 from typing import List
 
 from src.common.dto import FileHandlerDTO
-from src.logic import main_logic
+from src.logic import run
 
 
 class TestFullLogic:
@@ -17,7 +17,7 @@ class TestFullLogic:
         ]
     )
     def test_e2e_success(self, cli_args: List[str]) -> None:
-        result: FileHandlerDTO = main_logic(cli_args)
+        result: FileHandlerDTO = run(cli_args)
 
         assert result.error is None
         assert result.result is not None
@@ -34,7 +34,7 @@ class TestFullLogic:
         ]
     )
     def test_e2e_failure(self, cli_args: List[str]) -> None:
-        result: FileHandlerDTO = main_logic(cli_args)
+        result: FileHandlerDTO = run(cli_args)
 
         assert result.error is not None
         assert result.result is None
