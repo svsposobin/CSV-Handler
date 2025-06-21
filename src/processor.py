@@ -66,7 +66,7 @@ class CSVFileHandler:
 
                 filter_column, filter_operator, filter_value = self._filters
 
-                converted_filter_value: str = filter_value
+                converted_filter_value: str | float = filter_value
                 try:
                     converted_filter_value: float = float(filter_value)  # type: ignore
                 except ValueError:
