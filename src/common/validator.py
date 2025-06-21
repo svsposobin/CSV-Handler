@@ -25,8 +25,7 @@ class CliArgsValidator:
         :param choice: str -> cli arg, example: 'price>200'
         :return: List[str] -> [column, operator, condition], example: ['price', '>', '200']
         """
-        regex_pattern: str = FILTER_PATTERN
-        match: Optional[Match[str]] = fullmatch(pattern=regex_pattern, string=choice)
+        match: Optional[Match[str]] = fullmatch(pattern=FILTER_PATTERN, string=choice)
 
         if not match:
             raise Exception(
@@ -51,8 +50,7 @@ class CliArgsValidator:
         :param choice: str -> cli arg, example: 'price=max'
         :return: List[str] -> [column, operation], example: ['price', 'max']
         """
-        regex_pattern: str = AGGREGATION_PATTER
-        match: Optional[Match[str]] = fullmatch(pattern=regex_pattern, string=choice, flags=IGNORECASE)
+        match: Optional[Match[str]] = fullmatch(pattern=AGGREGATION_PATTER, string=choice, flags=IGNORECASE)
 
         if not match:
             raise Exception(

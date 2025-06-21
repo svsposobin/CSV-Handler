@@ -1,4 +1,4 @@
-from typing import List, Any, Dict, Optional, Union, Generator
+from typing import List, Any, Dict, Optional, Generator
 from csv import DictReader
 
 from src.common.wrappers import execution_time
@@ -17,8 +17,8 @@ class CSVFileHandler:
         self._filters: Optional[List[str]] = filters
         self._aggregation: Optional[List[str]] = aggregation
 
-    def get_full_data(self) -> Generator[Dict[str, Any], None, None]:
-        data: Generator[Dict[str, Any], None, None]
+    def get_full_data(self) -> Generator[Dict[Any, str | Any], None, None]:
+        data: Generator[Dict[Any, str | Any], None, None]
 
         try:
             data = self._load_data()
@@ -51,7 +51,7 @@ class CSVFileHandler:
 
         return result
 
-    def _load_data(self) -> Generator[Dict[str, Any], None, None]:
+    def _load_data(self) -> Generator[Dict[Any, str | Any], None, None]:
         """
             :return чтение CSV файла с возможной фильтрацией. Возвращает генератор строк для эффективной работы с
             памятью. Потребление памяти: O(1)
@@ -62,11 +62,11 @@ class CSVFileHandler:
 
                 if not self._filters:
                     yield from reader
-                    return  # Нужен для выхода с функции
+                    return  # Нужен для выхода из функции
 
                 filter_column, filter_operator, filter_value = self._filters
 
-                converted_filter_value: Union[str, float] = filter_value
+                converted_filter_value: str = filter_value
                 try:
                     converted_filter_value: float = float(filter_value)  # type: ignore
                 except ValueError:
@@ -76,7 +76,7 @@ class CSVFileHandler:
                     if filter_column not in row:
                         continue
 
-                    cell_value: Union[str, float] = row[filter_column]
+                    cell_value: str | float = row[filter_column]
                     if isinstance(converted_filter_value, float):
                         try:
                             cell_value: float = float(row[filter_column])  # type: ignore

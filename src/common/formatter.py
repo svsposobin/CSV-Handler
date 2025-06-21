@@ -11,14 +11,14 @@ def formatter(
         Данный форматтер не рекомендуется использовать для обработки огромных файлов, так как он загружает
         все данные в память!
     """
-    data: List[List] = []
-    headers: Optional[List[str]] = None
+    data: List[Any] = []
+    headers: Optional[Any] = None
 
     for index, row in enumerate(data_generator):
         if index == 0:
-            headers = list(row.keys())
+            headers = row.keys()
 
-        data.append(list(row.values()))
+        data.append(row.values())
 
     if not headers:
         return None
